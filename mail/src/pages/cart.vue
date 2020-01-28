@@ -1,22 +1,21 @@
 <template>
   <div>
-    <nav-header></nav-header>
-    <router-view></router-view>
+    <order-header></order-header>
+    cart
     <nav-footer></nav-footer>
   </div>
 </template>
 <script>
-import NavHeader from './../components/NavHeader'
+import OrderHeader from './../components/orderHeader'
 import NavFooter from './../components/NavFooter'
 export default {
   components:{
-    NavHeader,NavFooter
+    OrderHeader,NavFooter
   },
-  name:'home'
+  name:'cart'
 }
 </script>
-
-<style scoped>
+<style lang="sass" scoped>
 
 </style>
 

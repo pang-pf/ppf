@@ -1,12 +1,17 @@
 <template>
   <div>
-    <nav-header></nav-header>
+    <order-header></order-header>
     <router-view></router-view>
-    <nav-footer></nav-footer>
+    <order-footer></order-footer>
   </div>
 </template>
 <script>
+import OrderHeader from './../components/orderHeader'
+import OrderFooter from './../components/OrderFooter'
 export default {
+  components:{
+    OrderHeader,OrderFooter
+  },
   name:'order'
 }
 </script>
