@@ -1,5 +1,9 @@
 <template>
-  <div>order-footer</div>
+  <div class="container">
+    <div class=".order-footer">
+      1
+    </div>
+  </div>
 </template>
 <script>
 export default {
