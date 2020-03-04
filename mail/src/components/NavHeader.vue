@@ -10,7 +10,8 @@
         </div>
         <div class="topbar-user">
           <a href="javascript:;" v-if="userName">{{userName}}</a>
-          <a href="javascript:;" v-else @click="login">登陆</a>
+          <a href="javascript:;" v-if="userName" @click="loginOut">【退出】</a>
+          <a href="javascript:;" v-if="!userName" @click="login">登陆</a>
           <a href="javascript:;" v-if="userName">我的订单</a>
           <a href="javascript:;" v-else>注册</a>
           <a href="javascript:;" class="my-cart" @click="goCart"><span class="icon-cart"></span>购物车{{cartCount}}</a>
@@ -139,6 +140,9 @@ export default {
   },
   mounted(){
     this.getproductList();
+    if(this.$route.params && this.$route.params.from == 'login'){
+      this.getCartCount();
+    }
   },
   methods:{
     getproductList() {
@@ -156,6 +160,21 @@ export default {
     },
     goCart() {
       this.$router.push('/cart');
+    },
+    getCartCount(){
+      this.axios.get('/carts/products/sum').then((res) => {
+        // to-do 保存到vuex里面
+        this.$store.dispatch('saveCartCount', res);
+      })
+    },
+    loginOut(){
+      this.axios.post('/user/logout').then(()=>{
+        this.$message.success('退出登陆成功～');
+        this.$cookie.set('userId','',{expires:'-1'});
+        this.$store.dispatch('saveUserName', '');
+        this.$store.dispatch('saveCartCount', 0);
+        // this.$router.push({name:'login'});
+      })
     }
   },
   filters:{
@@ -201,36 +220,6 @@ export default {
         position: relative;
         height: 112px;
         @include flex();
-        .header-logo{
-          display: inline-block;
-          width: 55px;
-          height: 55px;
-          background-color: #FF6600;
-          overflow: hidden;
-          a{
-            display: inline-block;
-            width: 110px;
-            height: 55px;
-            &:before{
-              content: '';
-              @include bgImg(55px,55px,'/imgs/mi-logo.png',contain);
-              transition: margin ease .3s;
-            }
-            &:after{
-              content: '';
-              @include bgImg(55px,55px,'/imgs/mi-home.png',contain);
-              // display: inline-block;
-              // width: 55px;
-              // height: 55px;
-              // background: url('/imgs/mi-home.png') no-repeat center;
-              // background-size: contain;
-            }
-            &:hover:before{
-              margin-left: -55px;
-              transition: margin ease .3s;
-            }
-          }
-        }
         .header-menu{
           display: inline-block;
           width: 640px;

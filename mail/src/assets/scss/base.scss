@@ -1,3 +1,4 @@
+@import './mixin.scss';
 .container {
   width: 1226px;
   margin-left: auto;
@@ -8,3 +9,38 @@ input{
   box-sizing: border-box;
   font-size: 14px;
 }
+a {
+  
+}
+// 公共的logo 
+.header-logo{
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  background-color: #FF6600;
+  overflow: hidden;
+  a{
+    display: inline-block;
+    width: 110px;
+    height: 55px;
+    &:before{
+      content: '';
+      @include bgImg(55px,55px,'/imgs/mi-logo.png',contain);
+      transition: margin ease .3s;
+    }
+    &:after{
+      content: '';
+      @include bgImg(55px,55px,'/imgs/mi-home.png',contain);
+      // display: inline-block;
+      // width: 55px;
+      // height: 55px;
+      // background: url('/imgs/mi-home.png') no-repeat center;
+      // background-size: contain;
+    }
+    &:hover:before{
+      margin-left: -55px;
+      transition: margin ease .3s;
+    }
+  }
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active{background-color:#FF6700 !important;}

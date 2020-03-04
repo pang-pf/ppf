@@ -5,7 +5,10 @@ import vueAxios from 'vue-axios'
 import router from './router'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import {Message} from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
+
 // import env from './env'
 
 // 根据前端的跨域方式左调整
@@ -21,21 +24,31 @@ axios.interceptors.response.use(function(response) {
   if(res.status == 0) {
     return res.data;
   } else if(res.status == 10){
+    if(path == '#/login'){
+      return Promise.reject(res);
+    }
     if(path != '/#/index') {
       window.location.href = '/#/login'
+      Message.warning('请先登陆~'); 
       return Promise.reject(res);
     }
   } else {
-    alert(res.msg);
+    Message.warning(res.msg);
     return Promise.reject(res);
   }
+},(error)=>{
+  let res = error.response;
+  Message.error(res.data.message);
+  return Promise.reject(error);
 });
 
 Vue.use(vueAxios,axios);
 Vue.use(VueCookie);
+Vue.component(Message.name, Message);
 Vue.use(VueLazyLoad,{
   loading:'/imgs/loading-svg/loading-bars.svg'
 })
+Vue.prototype.$message = Message;
 // 生产环境的提示
 Vue.config.productionTip = false
 
